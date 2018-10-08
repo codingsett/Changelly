@@ -12,7 +12,6 @@ class ChangellyApi(object):
 
     def api_call(self,identifier,type,**kwargs):
 
-        print(type)
         message = {
             'jsonrpc': '2.0',
             'id': "{}".format(identifier),
