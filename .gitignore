@@ -1,2 +1,6 @@
 .idea
 Changelly/__pycache__
+build
+dist
+.pypirc
+changelly.egg-info
