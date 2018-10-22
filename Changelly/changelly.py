@@ -16,7 +16,7 @@ class ChangellyApi(object):
             'jsonrpc': '2.0',
             'id': "{}".format(identifier),
             'method': type,
-            'params': [kwargs]
+            'params': kwargs
         }
 
         serialized_data = json.dumps(message)
@@ -34,79 +34,79 @@ class ChangellyApi(object):
         return output
 
 
-    def getCurrencies(self,id,**kwargs):
+    def getCurrencies(self,name,**kwargs):
         '''Returns a list of enabled currencies as a flat array.'''
 
         call_type='getCurrencies'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def getCurrenciesFull(self,id,**kwargs):
+    def getCurrenciesFull(self,name,**kwargs):
         '''Returns a full list of currencies as an array of objects. Each object has an "enabled" field displaying current availability of a coin.'''
 
         call_type='getCurrenciesFull'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
 
-    def getMinAmount(self,id,**kwargs):
+    def getMinAmount(self,name,**kwargs):
         '''Returns a minimum allowed payin amount required for a currency pair. Amounts less than a minimal will most likely fail the transaction.'''
 
         call_type='getMinAmount'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def getExchangeAmount(self,id,**kwargs):
+    def getExchangeAmount(self,name,**kwargs):
         '''Returns estimated exchange value with your API partner fee included.'''
 
         call_type="getExchangeAmount"
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def generateAddress(self,id,**kwargs):
+    def generateAddress(self,name,**kwargs):
         '''Deprecated. Returns a pay-in address. A transaction ID will be generated later, while processing of the pay-in (when we will receive money).
          It’s better to use the "createTransaction" method instead, as "createTransaction" returns "transactionId" to monitor a transaction status.'''
 
         call_type='generateAddress'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def validateAddress(self,id,**kwargs):
+    def validateAddress(self,name,**kwargs):
         '''Returns if a given address is valid or not for a given currency.'''
 
         call_type="validateAddress"
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def createTransaction(self,id,**kwargs):
+    def createTransaction(self,name,**kwargs):
         '''Creates a new transaction, generates a pay-in address and returns Transaction object with an ID field to track a transaction status.'''
 
         call_type="createTransaction"
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
-    def getStatus(self,id,**kwargs):
+    def getStatus(self,name,**kwargs):
         '''Returns status of a given transaction using a transaction ID provided.'''
 
         call_type='getStatus'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
 
-    def getTransactions(self,id,**kwargs):
+    def getTransactions(self,name,**kwargs):
         '''Returns an array of all transactions or a filtered list of transactions.'''
 
         call_type='getTransactions'
 
-        return self.api_call(id,call_type,**kwargs)
+        return self.api_call(name,call_type,**kwargs)
 
 
 
