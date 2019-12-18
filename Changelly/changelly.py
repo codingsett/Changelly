@@ -146,3 +146,9 @@ class ChangellyApi(object):
 
         call_type = 'getFixRateBulk'
         return self.api_call(name, call_type, **kwargs)
+
+
+    def createFixTransaction(self, name, **kwargs):
+        '''Create fix rate transaction.'''
+        call_type = 'createFixTransaction'
+        return self.api_call(name, call_type, **kwargs)
