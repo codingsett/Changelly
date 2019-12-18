@@ -9,6 +9,29 @@ class ChangellyApi(object):
         self.apikey=API_KEY
         self.apisecret = API_SECRET
 
+    def post_to_changelly(self, message):
+        serialized_data = json.dumps(message)
+        sign = hmac.new(self.apisecret.encode('utf-8'), serialized_data.encode('utf-8'), hashlib.sha512).hexdigest()
+        headers = {'api-key': self.apikey, 'sign': sign, 'Content-type': 'application/json'}
+
+        response = requests.post(self.api_url, headers=headers, data=serialized_data)
+        if response.ok:
+            output=response.json()
+        else:
+            output=response.text
+
+        return output
+        
+    
+    def api_call_list_param(self,identifier,type,*args):
+        message = {
+            'jsonrpc': '2.0',
+            'id': "{}".format(identifier),
+            'method': type,
+            'params': args
+        }
+
+        return self.post_to_changelly(message)
 
     def api_call(self,identifier,type,**kwargs):
 
@@ -19,19 +42,7 @@ class ChangellyApi(object):
             'params': kwargs
         }
 
-        serialized_data = json.dumps(message)
-
-        sign = hmac.new(self.apisecret.encode('utf-8'), serialized_data.encode('utf-8'), hashlib.sha512).hexdigest()
-        headers = {'api-key': self.apikey, 'sign': sign, 'Content-type': 'application/json'}
-
-        response = requests.post(self.api_url, headers=headers, data=serialized_data)
-        if response.ok:
-            output=response.json()
-
-        else:
-            output=response.text
-
-        return output
+        return self.post_to_changelly(message)
 
 
     def getCurrencies(self,name,**kwargs):
@@ -100,7 +111,6 @@ class ChangellyApi(object):
         return self.api_call(name,call_type,**kwargs)
 
 
-
     def getTransactions(self,name,**kwargs):
         '''Returns an array of all transactions or a filtered list of transactions.'''
 
@@ -109,4 +119,30 @@ class ChangellyApi(object):
         return self.api_call(name,call_type,**kwargs)
 
 
+    def getFixRate(self, name, *args):
+        '''Returns fix rate for target pairs that can be used within 2 minutes'''
+        
+        call_type='getFixRate'
 
+        return self.api_call_list_param(name, call_type, *args)  
+    
+    
+    def getFixRateForAmount(self, name, *args):
+        '''Returns fix rate for target pairs with amoout that can be used within 30 seconds'''
+        
+        call_type = 'getFixRateForAmount'
+        return self.api_call_list_param(name, call_type, *args)  
+    
+
+    def getPairsParams(self, name, *args):
+        '''Fetch minimal and maximal amount for target pairs.'''
+        
+        call_type = 'getPairsParams'
+        return self.api_call_list_param(name, call_type, *args)
+
+
+    def getFixRateBulk(self, name, **kwargs):
+        '''Returns rate for all available currency pairs associate with rateId that can be used for 2 minutes'''
+
+        call_type = 'getFixRateBulk'
+        return self.api_call(name, call_type, **kwargs)
