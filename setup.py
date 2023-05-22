@@ -20,6 +20,6 @@ setup(name='changelly',
 
       zip_safe=False,
 
-      setup_requires=['requests==2.19.1','requests-mock==1.5.2'],
+      setup_requires=['requests==2.31.0','requests-mock==1.5.2'],
 
       test_suite='requests-mock')
